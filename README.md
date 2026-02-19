@@ -47,7 +47,7 @@ The system integrates Machine Learning, Flask, MySQL, and Google Gemini (LLM).
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 heart-disease-prediction/
 │
@@ -65,6 +65,7 @@ heart-disease-prediction/
 │ └── history.html
 │
 └── README.md
+
 
 
 ---
