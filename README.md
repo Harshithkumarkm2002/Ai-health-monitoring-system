@@ -47,28 +47,20 @@ The system integrates Machine Learning, Flask, MySQL, and Google Gemini (LLM).
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
-heart-disease-prediction/
-│
-├── app.py # Flask application
-├── predict.py # ML prediction logic
-├── llm.py # Gemini LLM integration
-├── heart_model.pkl # Trained ML model
-├── requirements.txt
-│
-├── templates/
-│ ├── home.html
-│ ├── login.html
-│ ├── predict.html
-│ ├── result.html
-│ └── history.html
-│
-└── README.md
+- app.py – Flask application  
+- predict.py – ML prediction logic  
+- llm.py – Gemini LLM integration  
+- heart_model.pkl – Trained ML model  
+- templates/
+  - home.html
+  - login.html
+  - predict.html
+  - result.html
+  - history.html
 
 
-
----
 
 ## Input Features
 
