@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart AI Prediction</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+    transition: background 0.5s ease, color 0.5s ease;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Light Mode */
+.light-mode {
+    background: #f4f6f9;
+    color: #212529;
+}
+
+/* Dark Mode */
+.dark-mode {
+    background: #121212;
+    color: #e9ecef;
+}
+
+/* Navbar */
+.navbar {
+    background: #0d6efd !important;
+}
+
+/* Hero Card */
+.glass-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.dark-mode .glass-card {
+    background: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+}
+
+/* Buttons */
+.btn-primary {
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 12px 24px;
+}
+
+/* Feature Boxes */
+.feature-box {
+    padding: 25px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    transition: 0.2s ease;
+    background: #fff;
+    color: #212529;
+}
+.feature-box:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    transform: translateY(-4px);
+}
+
+/* Dark Mode Feature Boxes */
+.dark-mode .feature-box {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    color: #e9ecef;
+}
+.dark-mode .feature-box:hover {
+    box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+    transform: translateY(-4px);
+}
+
+/* Stats Section */
+.stats {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0d6efd;
+}
+.dark-mode .stats {
+    color: #66b2ff; /* softer blue for dark mode */
+}
+
+/* Toggle Button */
+.toggle-btn {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* Footer */
+footer {
+    margin-top: 80px;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+footer a {
+    text-decoration: none;
+    color: inherit;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+
+    </style>
+</head>
+
+<body class="light-mode">
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark">
+    <div class="container d-flex justify-content-between">
+        <span class="navbar-brand fw-bold">Heart AI</span>
+        <span class="toggle-btn" onclick="toggleMode()"><i class="bi bi-moon"></i></span>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="container text-center mt-5">
+    <div class="glass-card">
+        <h1 class="fw-bold">AI-Powered Heart Risk Assessment</h1>
+        <p class="lead mt-3">
+            Trusted machine learning insights with secure authentication
+        </p>
+        <a href="/login_page" class="btn btn-primary btn-lg px-5 mt-3">
+            Get Started
+        </a>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="container text-center mt-5">
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="stats" id="stat1">0</div>
+            <p>Predictions Made</p>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats" id="stat2">0</div>
+            <p>Users Registered</p>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stats" id="stat3">0</div>
+            <p>AI Explanations Generated</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- Feature Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Key Features</h2>
+
+    <div class="row text-center">
+
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="bi bi-cpu fs-1 text-primary"></i>
+                <h4 class="mt-3">ML Prediction</h4>
+                <p>Accurate heart risk detection using trained ML models.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="bi bi-chat-dots fs-1 text-primary"></i>
+                <h4 class="mt-3">AI Explanation</h4>
+                <p>Clear, human-friendly explanations powered by Gemini AI.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="bi bi-shield-lock fs-1 text-primary"></i>
+                <h4 class="mt-3">Secure Login</h4>
+                <p>Google OAuth authentication ensures data safety.</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="feature-box">
+                <i class="bi bi-graph-up fs-1 text-primary"></i>
+                <h4 class="mt-3">History Tracking</h4>
+                <p>Access past predictions and AI insights anytime.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center mt-5">
+    <p>© 2026 Heart AI | Powered by Flask & AI Technologies</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+</footer>
+
+<script>
+    // Dark Mode Toggle
+    function toggleMode() {
+        const body = document.body;
+        const toggleIcon = document.querySelector(".toggle-btn i");
+        if (body.classList.contains("light-mode")) {
+            body.classList.remove("light-mode");
+            body.classList.add("dark-mode");
+            toggleIcon.classList.remove("bi-moon");
+            toggleIcon.classList.add("bi-sun");
+        } else {
+            body.classList.remove("dark-mode");
+            body.classList.add("light-mode");
+            toggleIcon.classList.remove("bi-sun");
+            toggleIcon.classList.add("bi-moon");
+        }
+    }
+
+    // Animated Counter
+    function animateCounter(id, target) {
+        let count = 0;
+        const speed = target / 100;
+
+        const update = () => {
+            count += speed;
+            if (count < target) {
+                document.getElementById(id).innerText = Math.floor(count);
+                requestAnimationFrame(update);
+            } else {
+                document.getElementById(id).innerText = target;
+            }
+        };
+
+        update();
+    }
+
+    // Start Animation
+    animateCounter("stat1", 1250);
+    animateCounter("stat2", 340);
+    animateCounter("stat3", 1250);
+</script>
+
+</body>
+</html>

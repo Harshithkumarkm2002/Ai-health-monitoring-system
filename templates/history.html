@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History - Heart AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: 0.5s ease, color 0.5s ease;
+        }
+
+        .light-mode {
+            background: #f4f6f9;
+            color: #212529;
+        }
+
+        .dark-mode {
+            background: #121212;
+            color: #e9ecef;
+        }
+
+        .navbar {
+            background: #0d6efd !important;
+        }
+        .navbar .btn {
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .glass-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .dark-mode .glass-card {
+            background: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(255,255,255,0.05);
+        }
+
+        .risk-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .high-risk {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .low-risk {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .card-hover {
+            transition: 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: #fff;
+        }
+        .dark-mode .toggle-btn {
+            color: #66b2ff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="light-mode">
+
+<nav class="navbar navbar-dark">
+    <div class="container d-flex justify-content-between">
+        <span class="navbar-brand fw-bold">Prediction History</span>
+        <div class="d-flex align-items-center">
+            <span class="me-3">{{ email }}</span>
+            <a href="/predict" class="btn btn-light btn-sm me-2">New Prediction</a>
+            <a href="/logout" class="btn btn-light btn-sm me-2">Logout</a>
+            <span class="toggle-btn" onclick="toggleMode()"><i class="bi bi-moon"></i></span>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">Your Past Predictions</h3>
+
+    {% if records %}
+        {% for record in records %}
+            <div class="glass-card mb-4 card-hover">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">{{ record.created_at }}</h6>
+                    {% if "High" in record.result %}
+                        <span class="risk-badge high-risk"><i class="bi bi-exclamation-triangle-fill me-1"></i> High Risk</span>
+                    {% else %}
+                        <span class="risk-badge low-risk"><i class="bi bi-check-circle-fill me-1"></i> Low Risk</span>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-4"><strong>Age:</strong> {{ record.age }}</div>
+                    <div class="col-md-4"><strong>Gender:</strong> {{ record.sex }}</div>
+                    <div class="col-md-4"><strong>Chest Pain Type:</strong> {{ record.cp }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4"><strong>Resting BP:</strong> {{ record.trestbps }}</div>
+                    <div class="col-md-4"><strong>Cholesterol:</strong> {{ record.chol }}</div>
+                    <div class="col-md-4"><strong>Fasting Blood Sugar:</strong> {{ record.fbs }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4"><strong>Rest ECG:</strong> {{ record.restecg }}</div>
+                    <div class="col-md-4"><strong>Max Heart Rate:</strong> {{ record.thalach }}</div>
+                    <div class="col-md-4"><strong>Exercise Angina:</strong> {{ record.exang }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4"><strong>Oldpeak:</strong> {{ record.oldpeak }}</div>
+                    <div class="col-md-4"><strong>Slope:</strong> {{ record.slope }}</div>
+                    <div class="col-md-4"><strong>Major Vessels:</strong> {{ record.ca }}</div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4"><strong>Thal:</strong> {{ record.thal }}</div>
+                </div>
+
+                {% if record.summary %}
+                <div class="mt-3">
+                    <h6><i class="bi bi-robot me-2"></i> AI Explanation</h6>
+
+                    <p><strong>Risk Summary:</strong></p>
+                    <ul>
+                        {% for point in record.summary.risk_summary %}
+                            <li>{{ point }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p><strong>Possible Reasons:</strong></p>
+                    <ul>
+                        {% for reason in record.summary.reasons %}
+                            <li>{{ reason }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p><strong>Lifestyle Suggestions:</strong></p>
+                    <ul>
+                        {% for tip in record.summary.suggestions %}
+                            <li>{{ tip }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <p><strong>Diet:</strong></p>
+                    <ul>
+                        {% for diet in record.summary.diet %}
+                            <li>{{ diet }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="alert alert-warning mt-2 mb-0">
+                        {{ record.summary.disclaimer }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="glass-card text-center">
+            <h5>No prediction history found.</h5>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    function toggleMode() {
+        const body = document.body;
+        const toggleIcon = document.querySelector(".toggle-btn i");
+        body.classList.toggle("dark-mode");
+        body.classList.toggle("light-mode");
+
+        if (body.classList.contains("dark-mode")) {
+            toggleIcon.classList.remove("bi-moon");
+            toggleIcon.classList.add("bi-sun");
+        } else {
+            toggleIcon.classList.remove("bi-sun");
+            toggleIcon.classList.add("bi-moon");
+        }
+    }
+</script>
+
+</body>
+</html>
